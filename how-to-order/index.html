@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    papa ishy's crepes - how to order
+  </title>
+  <link rel="icon"
+      type="image/png"
+      href="https://gcdnb.pbrd.co/images/LGbff0CK5Rrq.png?o=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  /* Safari mobile VH fix */
+  :root {
+    --vh: 1vh;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-height: calc(var(--vh, 1vh) * 100);
+    background-color: #0d0d0d;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Tablet and desktop background image */
+  @media (min-width: 768px), (hover: hover) and (pointer: fine) {
+    body {
+      background-image: url('/attached_assets/tablet.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+  }
+
+  /* Mobile-only background image */
+  @media (hover: none) and (pointer: coarse) and (max-width: 767px),
+         (hover: none) and (pointer: coarse) and (max-height: 480px) {
+    body {
+      background-image: url('/attached_assets/phone.jpeg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      min-height: calc(var(--vh, 1vh) * 100);
+    }
+  }
+
+  .loading-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .loading-dots {
+    display: flex;
+    gap: 10px;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+  }
+
+  .dot:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+
+  .dot:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+
+  @keyframes bounce {
+    0%, 80%, 100% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1);
+    }
+  }
+
+  .rectangles-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .order-info-rectangle {
+    width: 85vw;
+    max-width: 900px;
+    background-color: rgba(210, 180, 140, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .unavailable-rectangle {
+    display: inline-flex;
+    width: max-content;
+    width: fit-content;
+    width: -moz-fit-content;
+    max-width: calc(100vw - 8px);
+    margin: 0 auto;
+    background-color: #8db344;
+    border-radius: 15px;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .phone-rectangle {
+    width: 85vw;
+    max-width: 315px;
+    background-color: rgba(210, 180, 140, 0.9);
+    border-radius: 15px;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  .order-info-text {
+    font-family: swirly-kids;
+    color: #2C1810;
+    font-size: 16px;
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+    max-width: 100%;
+  }
+
+  .unavailable-text {
+    font-family: ishycrepe;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.2;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    max-width: 100%;
+    white-space: nowrap;
+  }
+
+  /* Mobile font size reduction for narrow screens */
+  @media (max-width: 360px) {
+    .unavailable-text {
+      font-size: 14px;
+    }
+  }
+
+  .phone-text {
+    font-family: swirly-kids;
+    color: #2C1810;
+    font-size: 16px;
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+    max-width: 100%;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  .phone-link {
+    color: #2C1810;
+    text-decoration: none;
+    font-family: swirly-kids;
+    font-size: 16px;
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .phone-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+
+  .phone-link:visited {
+    color: #2C1810;
+  }
+
+  .phone-link:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+
+  .payment-methods {
+    width: 85vw;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  .payment-methods-text {
+    font-family: swirly-kids;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 4px 4px 12px rgba(0, 0, 0, 0.6);
+    margin: 0;
+    padding: 0;
+  }
+  
+  @font-face {
+    font-family: swirly-kids;
+    src: url("/attached_assets/swirly kids.ttf");
+  }
+  
+  @font-face {
+    font-family: HelloCatround;
+    src: url("/attached_assets/HelloCatround.ttf");
+  }
+  
+  @font-face {
+    font-family: ishycrepe;
+    src: url("/attached_assets/Bigcurls_1758695903562.ttf");
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .show {
+    display: block !important;
+  }
+
+  .show-flex {
+    display: flex !important;
+  }
+
+  /* Falling Petals Animation */
+  .petals-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .petal {
+    position: absolute;
+    background-color: rgba(255, 182, 193, 0.8);
+    border-radius: 50% 0 50% 0;
+    animation: fall linear 1;
+    transform-origin: center;
+  }
+
+  .petal::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 105, 180, 0.6);
+    border-radius: 0 50% 0 50%;
+    transform: rotate(45deg);
+  }
+
+  @keyframes fall {
+    0% {
+      transform: translateY(-100vh) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  .petal:nth-child(odd) {
+    background-color: rgba(255, 192, 203, 0.7);
+  }
+
+  .petal:nth-child(even) {
+    background-color: rgba(255, 20, 147, 0.5);
+  }
+
+  .petal:nth-child(3n) {
+    background-color: rgba(255, 160, 122, 0.6);
+  }
+
+  .petal-wrapper {
+    animation: sway linear infinite;
+  }
+
+  @keyframes sway {
+    0% { transform: translateX(0px); }
+    25% { transform: translateX(10px); }
+    50% { transform: translateX(0px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0px); }
+  }
+
+  /* Pause animations for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .petal, .petal-wrapper {
+      animation: none;
+    }
+    .petals-container {
+      display: none;
+    }
+  }
+
+  .toolstext {
+    font-family: ishycrepe;
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    margin-top: 20px;
+    z-index: 3;
+    display: none;
+  }
+
+  .toolstext.show {
+    display: block;
+  }
+
+  .toolslink {
+    text-decoration: underline;
+    color: #fff;
+    opacity: 0.85;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1.0), 4px 4px 12px rgba(0, 0, 0, 0.95);
+    font-family: ishycrepe;
+  }
+
+  .toolslink:hover {
+    opacity: 0.6;
+  }
+
+  .main-menu-button {
+    background-image: url('/attached_assets/button.jpeg');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid black;
+    color: #2C1810;
+    width: 250px;
+    max-width: 80%;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: ishycrepe;
+    text-shadow: none;
+    clip-path: polygon(1% 9%, 6% 2%, 13% 5%, 20% 0%, 27% 4%, 34% 1%, 41% 6%, 48% 2%, 55% 0%, 62% 5%, 69% 1%, 76% 4%, 83% 0%, 90% 3%, 97% 1%, 100% 8%, 98% 15%, 100% 22%, 96% 29%, 99% 36%, 95% 43%, 98% 50%, 94% 57%, 97% 64%, 93% 71%, 96% 78%, 92% 85%, 95% 92%, 91% 99%, 84% 96%, 77% 100%, 70% 97%, 63% 99%, 56% 95%, 49% 98%, 42% 94%, 35% 97%, 28% 93%, 21% 96%, 14% 92%, 7% 95%, 1% 91%, 3% 84%, 0% 77%, 4% 70%, 1% 63%, 5% 56%, 2% 49%, 6% 42%, 3% 35%, 0% 28%, 4% 21%, 1% 14%);
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0) translateX(-50%);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .main-menu-button.show {
+    display: block;
+  }
+
+  .main-menu-button:hover, .main-menu-button:focus {
+    -webkit-transform: scale(0.95) translateX(-50%);
+    transform: scale(0.95) translateX(-50%);
+  }
+
+  .main-menu-button:active {
+    -webkit-transform: scale(0.85) translateX(-50%);
+    transform: scale(0.85) translateX(-50%);
+    transition: transform 0.1s ease-in-out;
+  }
+
+  .arrow {
+    width: 18px;
+    height: 18px;
+    margin: 0 8px;
+    vertical-align: middle;
+    pointer-events: none;
+    animation: fadeInOut 2s ease-in-out infinite;
+  }
+
+  .arrow path {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.95));
+  }
+
+  @keyframes fadeInOut {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div class="petals-container" id="petals-container"></div>
+  <div id="loading" class="loading-screen" style="position: relative; z-index: 2;">
+    <div class="loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  
+  <div id="content-container" class="rectangles-container" style="z-index: 2;">
+    <div class="unavailable-rectangle">
+      <p class="unavailable-text">
+        Available to pre-order for 10/5!
+      </p>
+    </div>
+    
+    <div class="order-info-rectangle">
+      <p class="order-info-text">
+        To place an order for Papa Ishy's Crepes you can text the phone number below with the crepe(s) that you would like. All orders are for pick up in San Leandro, CA or delivery in the east bay area.<br><br>Delivery fee determined by distance.<br><br>(You can tap the phone number to send a text)
+      </p>
+    </div>
+    
+    <div class="phone-rectangle">
+      <p class="phone-text">
+        <svg class="arrow arrow-left" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M9 6l6 6-6 6" fill="none" stroke="#2C1810" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <a href="sms:+15104344467" class="phone-link">(510) 434-4467</a>
+        <svg class="arrow arrow-right" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M15 6l-6 6 6 6" fill="none" stroke="#2C1810" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </p>
+    </div>
+    
+    <div class="payment-methods">
+      <p class="payment-methods-text">Payment Methods</p>
+      <p class="payment-methods-text">--</p>
+      <p class="payment-methods-text">debit/credit | cash | apple pay | google pay | zelle | cashapp | venmo</p>
+    </div>
+    
+    <p class="toolstext" id="backLink"><a class="toolslink" href="/">Main Menu</a></p>
+  </div>
+
+  <script>
+    // Show loading screen for 3 seconds, then show the rectangles container and back link
+    setTimeout(() => {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('content-container').classList.add('show-flex');
+      document.getElementById('backLink').classList.add('show');
+    }, 3000);
+
+    // Global interval management
+    let petalInterval = null;
+
+    // Falling Petals Animation
+    function createPetal() {
+      // Check if user prefers reduced motion
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+      }
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'petal-wrapper';
+      wrapper.style.position = 'absolute';
+      wrapper.style.top = '-50px';
+      
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      
+      // Random size between 8px and 20px
+      const size = Math.random() * 12 + 8;
+      petal.style.width = size + 'px';
+      petal.style.height = size + 'px';
+      
+      // Random horizontal position
+      const startX = Math.random() * 100;
+      wrapper.style.left = startX + '%';
+      
+      // Random animation durations
+      const fallDuration = Math.random() * 5 + 3;
+      const swayDuration = Math.random() * 3 + 2;
+      
+      petal.style.animationDuration = fallDuration + 's';
+      wrapper.style.animationDuration = swayDuration + 's';
+      
+      // Random delays
+      const delay = Math.random() * 2;
+      petal.style.animationDelay = delay + 's';
+      wrapper.style.animationDelay = delay + 's';
+      
+      wrapper.appendChild(petal);
+      document.getElementById('petals-container').appendChild(wrapper);
+      
+      // Remove petal after animation completes
+      setTimeout(() => {
+        if (wrapper.parentNode) {
+          wrapper.parentNode.removeChild(wrapper);
+        }
+      }, (fallDuration + delay) * 1000);
+    }
+
+    // Create petals continuously
+    function startPetals() {
+      if (petalInterval) return; // Prevent multiple intervals
+      petalInterval = setInterval(createPetal, 300);
+    }
+
+    function stopPetals() {
+      if (petalInterval) {
+        clearInterval(petalInterval);
+        petalInterval = null;
+      }
+    }
+
+    // Handle visibility change (single listener)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopPetals();
+      } else {
+        startPetals();
+      }
+    });
+
+    // Start the petals animation
+    startPetals();
+    
+    // Safari mobile VH fix
+    function setVh() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    // Initial call
+    setVh();
+    
+    // Update on resize (with debounce)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(setVh, 100);
+    });
+    
+    // Update on orientation change
+    window.addEventListener('orientationchange', () => {
+      setTimeout(setVh, 100);
+    });
+  </script>
+</body>
+
+</html>
